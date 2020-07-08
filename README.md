@@ -1,5 +1,5 @@
 # terraform-aws-secure-password
-Template repository for terraform modules. Good for any cloud and any provider.
+Creates a password with a Lambda data source and saves it in a secrets manager secret, allowing the creation of passwords without saving them in state
 
 [![tflint](https://github.com/rhythmictech/terraform-aws-secure-password/workflows/tflint/badge.svg?branch=main&event=push)](https://github.com/rhythmictech/terraform-aws-secure-password/actions?query=workflow%3Atflint+event%3Apush+branch%3Amain)
 [![tfsec](https://github.com/rhythmictech/terraform-aws-secure-password/workflows/tfsec/badge.svg?branch=main&event=push)](https://github.com/rhythmictech/terraform-aws-secure-password/actions?query=workflow%3Atfsec+event%3Apush+branch%3Amain)
@@ -17,7 +17,7 @@ module "example" {
 ```
 
 ## About
-A bit about this module
+Creates a password with a Lambda data source and saves it in a secrets manager secret, allowing the creation of passwords without saving them in state
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
