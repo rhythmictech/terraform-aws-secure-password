@@ -1,0 +1,26 @@
+{
+  "name": "lambda-create-password-secret",
+  "author": "Scott Miller",
+  "dependencies": {
+    "aws-sdk": "^2.702.0",
+    "secure-random-password": "^0.2.1"
+  },
+  "description": "Generates a random password, saves it to a secret, and returns metadata about the secret",
+  "devDependencies": {
+    "eslint": "^7.3.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "node-lambda": "^0.17.0"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "node-lambda package -e production -x 'event.json build.env bin .github' -I lambci/lambda:build-nodejs12.x",
+    "run": "node-lambda run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}

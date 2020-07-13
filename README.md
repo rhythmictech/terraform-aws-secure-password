@@ -22,26 +22,44 @@ Creates a password with a Lambda data source and saves it in a secrets manager s
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-| Name      | Version    |
-|-----------|------------|
+| Name | Version |
+|------|---------|
 | terraform | >= 0.12.14 |
 
 ## Providers
 
-No provider.
+| Name | Version |
+|------|---------|
+| aws | n/a |
+| random | n/a |
 
 ## Inputs
 
-| Name | Description                                     | Type          | Default | Required |
-|------|-------------------------------------------------|---------------|---------|:--------:|
-| name | Moniker to apply to all resources in the module | `string`      | n/a     |   yes    |
-| tags | User-Defined tags                               | `map(string)` | `{}`    |    no    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| length | Length of the password to be created | `number` | n/a | yes |
+| name | Moniker to apply to all resources in the module | `string` | n/a | yes |
+| keepers | Arbitrary map of values that when changed will force a new password | `map(string)` | `{}` | no |
+| lower | Whether to use lower case characters | `bool` | `true` | no |
+| min\_lower | Minimum number of lowercase letters | `number` | `0` | no |
+| min\_numeric | Minimum number of numeric characters to use. Must be at least 1 | `number` | `1` | no |
+| min\_special | Minimum number of special characters to use. Must be at least 1 | `number` | `1` | no |
+| min\_upper | Minimum number of uppercase characters to use. Must be at least 1 | `number` | `1` | no |
+| number | Whether to use numbers | `bool` | `true` | no |
+| override\_special | Supply your own list of special characters to use for string generation | `string` | `"!@#$%\u0026*()-_=+[]{}\u003c\u003e:?"` | no |
+| secret\_description | Set a description for the secret | `string` | `"A password created by Terraform"` | no |
+| special | Whether to use special characters | `bool` | `true` | no |
+| tags | User-Defined tags | `map(string)` | `{}` | no |
+| upper | Whether to use uppercase characters | `bool` | `true` | no |
 
 ## Outputs
 
-| Name         | Description                  |
-|--------------|------------------------------|
-| tags\_module | Tags Module in it's entirety |
+| Name | Description |
+|------|-------------|
+| invocation\_result\_stderr | stderr of invocation\_result |
+| invocation\_stderr | stderr of invocation command |
+| invocation\_stdout | stdout of invocation command |
+| result | String result of Lambda execution |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

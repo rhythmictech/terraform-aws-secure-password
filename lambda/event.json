@@ -1,0 +1,209 @@
+{
+  "Records": [
+    {
+      "EventSource": "aws:sns",
+      "EventSubscriptionArn": "arn:aws:sns:us-east-2:123456789012:sns-lambda:21be56ed-a058-49f5-8c98-aedd2564c486",
+      "EventVersion": "1.0",
+      "Sns": {
+        "Message": {
+          "name": "Amazon Linux Base Image-recipe-50b5a411a6b5",
+          "accountId": "312594956781",
+          "arn": "arn:aws:imagebuilder:us-east-1:312594956781:image/amazon-linux-base-image-recipe-50b5a411a6b5/1.1.2/10",
+          "buildExecutionId": "d2c1cfd0-8160-4e6d-8f74-365c24951842",
+          "buildVersion": 10,
+          "dateCreated": "Jun 22, 2020 8:59:00 PM",
+          "distributionConfiguration": {
+            "name": "rhythmic_amzn2_base-distributionConfiguration-293298324e17",
+            "accountId": "312594956781",
+            "arn": "arn:aws:imagebuilder:us-east-1:312594956781:distribution-configuration/rhythmic-amzn2-base-distributionconfiguration-293298324e17",
+            "dateCreated": "Apr 29, 2020 5:07:58 PM",
+            "distributions": [
+              {
+                "amiDistributionConfiguration": {
+                  "name": "rhythmic_amzn2_base_ 2020-06-22T20-59-00.506Z",
+                  "launchPermission": {
+                    "userGroups": [
+                      "all"
+                    ]
+                  }
+                },
+                "region": "us-east-1"
+              },
+              {
+                "amiDistributionConfiguration": {
+                  "name": "rhythmic_amzn2_base_ 2020-06-22T20-59-00.506Z",
+                  "launchPermission": {
+                    "userGroups": [
+                      "all"
+                    ]
+                  }
+                },
+                "region": "us-east-2"
+              },
+              {
+                "amiDistributionConfiguration": {
+                  "name": "rhythmic_amzn2_base_ 2020-06-22T20-59-00.506Z",
+                  "launchPermission": {
+                    "userGroups": [
+                      "all"
+                    ]
+                  }
+                },
+                "region": "us-west-1"
+              },
+              {
+                "amiDistributionConfiguration": {
+                  "name": "rhythmic_amzn2_base_ 2020-06-22T20-59-00.506Z",
+                  "launchPermission": {
+                    "userGroups": [
+                      "all"
+                    ]
+                  }
+                },
+                "region": "us-west-2"
+              },
+              {
+                "amiDistributionConfiguration": {
+                  "name": "rhythmic_amzn2_base_ 2020-06-22T20-59-00.506Z",
+                  "launchPermission": {
+                    "userGroups": [
+                      "all"
+                    ]
+                  }
+                },
+                "region": "ca-central-1"
+              }
+            ],
+            "tags": {
+              "internalId": "714434d5-1380-4ef0-be36-96fde6b37bfd",
+              "resourceArn": "arn:aws:imagebuilder:us-east-1:312594956781:distribution-configuration/rhythmic-amzn2-base-distributionconfiguration-293298324e17"
+            }
+          },
+          "distributionJobId": "28bf3df0-76f1-4a75-867b-1ebb869b0df9",
+          "enhancedImageMetadataEnabled": true,
+          "imageRecipe": {
+            "name": "Amazon Linux Base Image-recipe-50b5a411a6b5",
+            "accountId": "312594956781",
+            "arn": "arn:aws:imagebuilder:us-east-1:312594956781:image-recipe/amazon-linux-base-image-recipe-50b5a411a6b5/1.1.2",
+            "components": [
+              {
+                "componentArn": "arn:aws:imagebuilder:us-east-1:627945338248:component/reboot-test-linux/1.0.0/1"
+              },
+              {
+                "componentArn": "arn:aws:imagebuilder:us-east-1:627945338248:component/simple-boot-test-linux/1.0.0/1"
+              },
+              {
+                "componentArn": "arn:aws:imagebuilder:us-east-1:627945338248:component/update-linux/1.0.0/1"
+              },
+              {
+                "componentArn": "arn:aws:imagebuilder:us-east-1:312594956781:component/ansible-base-yum/1.0.3/1"
+              }
+            ],
+            "dateCreated": "Apr 29, 2020 5:06:10 PM",
+            "parentImage": "arn:aws:imagebuilder:us-east-1:627945338248:image/amazon-linux-2-x86/2020.5.27/1",
+            "platform": "Linux",
+            "tags": {
+              "internalId": "29a75e11-95bb-4e43-903b-b0a5d14afa85",
+              "resourceArn": "arn:aws:imagebuilder:us-east-1:312594956781:image-recipe/amazon-linux-base-image-recipe-50b5a411a6b5/1.1.2"
+            },
+            "version": "1.1.2"
+          },
+          "imageTestsConfigurationDocument": {
+            "imageTestsEnabled": true,
+            "timeoutMinutes": 720
+          },
+          "infrastructureConfiguration": {
+            "name": "rhythmic_amzn2_base-infrastructureConfiguration-20f716faf798",
+            "accountId": "312594956781",
+            "arn": "arn:aws:imagebuilder:us-east-1:312594956781:infrastructure-configuration/rhythmic-amzn2-base-infrastructureconfiguration-20f716faf798",
+            "dateCreated": "Apr 29, 2020 5:07:57 PM",
+            "dateUpdated": "Jun 22, 2020 8:58:51 PM",
+            "instanceProfileName": "ec2_instance_builder",
+            "instanceTypes": [
+              "t3.medium"
+            ],
+            "logging": {
+              "s3Logs": {
+                "s3BucketName": "aws-infra-services-logs",
+                "s3KeyPrefix": "ec2-image-builder"
+              }
+            },
+            "securityGroupIds": [
+              "sg-01cbab34107b0cc83"
+            ],
+            "snsTopicArn": "arn:aws:sns:us-east-1:312594956781:image-builder-test",
+            "subnetId": "subnet-08fcda6fa40a738f9",
+            "tags": {
+              "internalId": "13abcffe-dddb-489c-a648-5a9bf889cf03",
+              "resourceArn": "arn:aws:imagebuilder:us-east-1:312594956781:infrastructure-configuration/rhythmic-amzn2-base-infrastructureconfiguration-20f716faf798"
+            },
+            "terminateInstanceOnFailure": true
+          },
+          "integrationJobId": "16ca9f96-671d-4a32-8191-cfaa0945e152",
+          "osVersion": "Amazon Linux 2",
+          "outputResources": {
+            "amis": [
+              {
+                "name": "rhythmic_amzn2_base_ 2020-06-22T20-59-00.506Z",
+                "image": "ami-0dd050facfbdb3127",
+                "region": "us-east-1"
+              },
+              {
+                "name": "rhythmic_amzn2_base_ 2020-06-22T20-59-00.506Z",
+                "image": "ami-04115edc30dfe5b06",
+                "region": "us-east-2"
+              },
+              {
+                "name": "rhythmic_amzn2_base_ 2020-06-22T20-59-00.506Z",
+                "image": "ami-016892d4034d0f746",
+                "region": "us-west-1"
+              },
+              {
+                "name": "rhythmic_amzn2_base_ 2020-06-22T20-59-00.506Z",
+                "image": "ami-00999658d4b25441d",
+                "region": "us-west-2"
+              },
+              {
+                "name": "rhythmic_amzn2_base_ 2020-06-22T20-59-00.506Z",
+                "image": "ami-0c7b44c0412b92110",
+                "region": "ca-central-1"
+              }
+            ]
+          },
+          "platform": "Linux",
+          "semver": 1237940040438301781653454858,
+          "sourcePipelineArn": "arn:aws:imagebuilder:us-east-1:312594956781:image-pipeline/rhythmic-amzn-2-base",
+          "state": {
+            "status": "AVAILABLE"
+          },
+          "tags": {
+            "internalId": "39e86d24-e652-408f-829e-e46f8459f8c5",
+            "resourceArn": "arn:aws:imagebuilder:us-east-1:312594956781:image/amazon-linux-base-image-recipe-50b5a411a6b5/1.1.2/10"
+          },
+          "testExecutionId": "3ece22e3-6721-4b62-9ae1-0749ffa37fed",
+          "version": "1.1.2",
+          "versionlessArn": "arn:aws:imagebuilder:us-east-1:312594956781:image/amazon-linux-base-image-recipe-50b5a411a6b5"
+        },
+        "MessageAttributes": {
+          "Test": {
+            "Type": "String",
+            "Value": "TestString"
+          },
+          "TestBinary": {
+            "Type": "Binary",
+            "Value": "TestBinary"
+          }
+        },
+        "MessageId": "95df01b4-ee98-5cb9-9903-4c221d41eb5e",
+        "Signature": "tcc6faL2yUC6dgZdmrwh1Y4cGa/ebXEkAi6RibDsvpi+tE/1+82j...65r==",
+        "SignatureVersion": "1",
+        "SigningCertUrl": "https://sns.us-east-2.amazonaws.com/SimpleNotificationService-ac565b8b1a6c5d002d285f9598aa1d9b.pem",
+        "Subject": "TestInvoke",
+        "Timestamp": "2019-01-02T12:45:07.000Z",
+        "TopicArn": "arn:aws:sns:us-east-2:123456789012:sns-lambda",
+        "Type": "Notification",
+        "UnsubscribeUrl": "https://sns.us-east-2.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:us-east-2:123456789012:test-lambda:21be56ed-a058-49f5-8c98-aedd2564c486"
+      }
+    }
+  ]
+}
