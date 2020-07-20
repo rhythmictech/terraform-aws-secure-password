@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "assume" {
 }
 
 resource "aws_iam_role" "this" {
-  name_prefix = "${var.name}-"
+  name_prefix = "${var.name}"
   description = "Role for ${var.name} to create secret"
 
   assume_role_policy = data.aws_iam_policy_document.assume.json
