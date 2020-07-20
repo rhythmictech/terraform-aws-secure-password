@@ -81,7 +81,7 @@ resource "aws_lambda_function" "this" {
 }
 
 resource "aws_secretsmanager_secret" "this" {
-  name_prefix = "${var.name}-"
+  name_prefix = "${var.name}"
   description = var.secret_description
   tags = merge(
     var.tags,
