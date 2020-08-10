@@ -143,7 +143,7 @@ module "lambda_invocation" {
   source  = "matti/resource/shell"
   version = "~>1.0.7"
 
-  command = "aws lambda invoke --function-name ${aws_lambda_function.this.function_name} --payload '${jsonencode(local.password_params)}' /tmp/lambda_invocation_output"
+  command = "aws lambda invoke --function-name ${aws_lambda_function.this.function_name} --payload '${jsonencode(local.password_params)}' ${path.module}/tmp/lambda_invocation_output"
   trigger = random_string.trigger.result
 
   depends = [
@@ -156,7 +156,7 @@ module "lambda_invocation_result" {
   source  = "matti/resource/shell"
   version = "~>1.0.7"
 
-  command     = "cat /tmp/lambda_invocation_output"
+  command     = "cat ${path.module}/tmp/lambda_invocation_output"
   depends     = [module.lambda_invocation]
   trigger     = module.lambda_invocation.id
   working_dir = path.module
