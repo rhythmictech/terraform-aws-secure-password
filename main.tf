@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "assume" {
 }
 
 resource "aws_iam_role" "this" {
-  name_prefix = "${var.name}"
+  name_prefix = "${var.name}-"
   description = "Role for ${var.name} to create secret"
 
   assume_role_policy = data.aws_iam_policy_document.assume.json
@@ -48,9 +48,23 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-resource "aws_iam_role_policy_attachment" "secretsmanager_read_write" {
-  role       = aws_iam_role.this.name
-  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+data "aws_iam_policy_document" "secret_write" {
+  statement {
+    actions = [
+      "secretsmanager:PutSecretVersion",
+    ]
+
+    resources = [
+      aws_secretsmanager_secret.privkey.arn,
+      aws_secretsmanager_secret.pubkey.arn
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "secret_write" {
+  name_prefix = "${var.name}-secret-write-"
+  policy      = data.aws_iam_policy_document.secret_write.json
+  role        = aws_iam_role.this.name
 }
 
 resource "aws_lambda_function" "this" {
@@ -81,7 +95,7 @@ resource "aws_lambda_function" "this" {
 }
 
 resource "aws_secretsmanager_secret" "this" {
-  name_prefix = "${var.name}"
+  name_prefix = "${var.name}-"
   description = var.secret_description
   tags = merge(
     var.tags,
