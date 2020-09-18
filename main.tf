@@ -68,16 +68,19 @@ resource "aws_iam_role_policy" "secret_write" {
 }
 
 resource "aws_lambda_function" "this" {
-  depends_on = [
-    module.lambda_package
-  ]
-
   filename         = local.zipfile
   function_name    = var.name
   handler          = "index.handler"
   role             = aws_iam_role.this.arn
   runtime          = "nodejs12.x"
   source_code_hash = try(filebase64sha256(local.zipfile), null)
+
+  tags = merge(
+    var.tags,
+    {
+      "Name" = var.name
+    }
+  )
 
   lifecycle {
     ignore_changes = [
@@ -86,12 +89,9 @@ resource "aws_lambda_function" "this" {
     ]
   }
 
-  tags = merge(
-    var.tags,
-    {
-      "Name" = var.name
-    }
-  )
+  depends_on = [
+    module.lambda_package
+  ]
 }
 
 resource "aws_secretsmanager_secret" "this" {
