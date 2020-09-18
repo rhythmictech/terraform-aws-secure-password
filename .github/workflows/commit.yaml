@@ -1,10 +1,10 @@
 ---
-name: pull request
+name: commit-check
 on:
-  pull_request:
+  push:
 
 jobs:
-  pre-commit:
+  pre-commit-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -51,7 +51,7 @@ jobs:
         uses: reviewdog/action-tflint@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check
+          reporter: github-check
           filter_mode: added
           flags: --module
           level: error
@@ -69,7 +69,7 @@ jobs:
         uses: reviewdog/action-tfsec@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check
+          reporter: github-check
           filter_mode: added
           level: warning
   misspell:
@@ -81,7 +81,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           locale: "US"
-          reporter: github-pr-check
+          reporter: github-check
           filter_mode: added
           level: error
   yamllint:
@@ -92,6 +92,6 @@ jobs:
         uses: reviewdog/action-yamllint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check
+          reporter: github-check
           filter_mode: added
           level: error
