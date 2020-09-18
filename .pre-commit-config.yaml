@@ -62,6 +62,7 @@ repos:
           - --branch
           - prod
       - id: pretty-format-json
+        exclude: package-lock.json$
         args:
           - --autofix
           - --top-keys=name,Name
