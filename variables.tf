@@ -16,6 +16,12 @@ variable "tags" {
   type        = map(string)
 }
 
+variable "lambda_version_constraint" {
+  default     = "^1.0.0-rc1"
+  description = "NPM-style version constraint for the version of the lambda code you want to use"
+  type        = string
+}
+
 variable "length" {
   description = "Length of the password to be created"
   type        = number

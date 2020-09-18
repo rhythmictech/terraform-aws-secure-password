@@ -11,3 +11,5 @@
 # local tmp
 tmp
 tmp/*
+
+**/*.zip

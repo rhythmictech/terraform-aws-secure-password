@@ -11,9 +11,18 @@ Creates a password with a Lambda data source and saves it in a secrets manager s
 ## Example
 Here's what using the module will look like
 ```hcl
-module "example" {
-  source = "rhythmictech/terraform-mycloud-mymodule
+module "secure_password" {
+  source  = "rhythmictech/secure-password/aws"
+  version = "~> 1.0.0-rc1"
+
+  name    = "my-secure-pass"
+  length  = 24
 }
+
+output "secret_name" {
+  value = module.secure_password.secret_name
+}
+
 ```
 
 ## About
@@ -24,14 +33,18 @@ Creates a password with a Lambda data source and saves it in a secrets manager s
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.14 |
+| terraform | ~> 0.12.28 |
+| aws | ~> 3.0 |
+| null | ~> 2.1 |
+| random | ~> 2.3 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | n/a |
-| random | n/a |
+| aws | ~> 3.0 |
+| null | ~> 2.1 |
+| random | ~> 2.3 |
 
 ## Inputs
 
@@ -40,6 +53,7 @@ Creates a password with a Lambda data source and saves it in a secrets manager s
 | length | Length of the password to be created | `number` | n/a | yes |
 | name | Moniker to apply to all resources in the module | `string` | n/a | yes |
 | keepers | Arbitrary map of values that when changed will force a new password | `map(string)` | `{}` | no |
+| lambda\_version\_constraint | NPM-style version constraint for the version of the lambda code you want to use | `string` | `"^1.0.0-rc1"` | no |
 | lower | Whether to use lower case characters | `bool` | `true` | no |
 | min\_lower | Minimum number of lowercase letters | `number` | `0` | no |
 | min\_numeric | Minimum number of numeric characters to use. Must be at least 1 | `number` | `1` | no |
@@ -56,10 +70,11 @@ Creates a password with a Lambda data source and saves it in a secrets manager s
 
 | Name | Description |
 |------|-------------|
-| invocation\_result\_stderr | stderr of invocation\_result |
-| invocation\_stderr | stderr of invocation command |
-| invocation\_stdout | stdout of invocation command |
+| lambda\_version | The selected version of the Lambda code |
+| lambda\_version\_info | all information about the selected version of the Lambda code |
 | result | String result of Lambda execution |
+| secret\_arn | ARN of the secret containing the password |
+| secret\_name | Name of the secret containing the password |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

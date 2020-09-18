@@ -1,17 +1,35 @@
-module "lambda_package" {
-  source  = "matti/resource/shell"
-  version = "~>1.0.7"
+locals {
+  lambda_repo_full_name = "${local.lambda_repo_owner}/${local.lambda_repo_name}"
+  lambda_repo_owner     = "rhythmictech"
+  lambda_repo_name      = "lambda-aws-secure-password"
+}
 
-  # I want to be using `npm run-script build` here,
-  # but for some reason I can't work out `node-lambda` fails in that context
-  command     = "node-lambda package -e production -x 'event.json build.env bin .github' -I lambci/lambda:build-nodejs12.x"
-  working_dir = "${path.module}/lambda"
+module "lambda_version" {
+  source  = "rhythmictech/find-release-by-semver/github"
+  version = "~> 1.0"
 
-  trigger = join("", values({
-    package_lock_json = filemd5("${path.module}/lambda/package-lock.json")
-    package_json      = filemd5("${path.module}/lambda/package.json")
-    app               = filemd5("${path.module}/lambda/index.js")
-  }))
+  repo_name          = local.lambda_repo_name
+  repo_owner         = local.lambda_repo_owner
+  version_constraint = var.lambda_version_constraint
+}
+
+locals {
+  lambda_version     = module.lambda_version.target_version
+  lambda_version_tag = module.lambda_version.version_info.release_tag
+}
+
+resource "null_resource" "lambda_zip" {
+  triggers = {
+    on_version_change = local.lambda_version
+  }
+
+  provisioner "local-exec" {
+    command = "curl -Lso ${path.module}/lambda.zip https://github.com/${local.lambda_repo_full_name}/releases/download/${local.lambda_version_tag}/lambda.zip"
+  }
+}
+
+locals {
+  zipfile = "${path.module}/lambda.zip"
 }
 
 data "aws_iam_policy_document" "assume" {
@@ -39,10 +57,6 @@ resource "aws_iam_role" "this" {
   }
 }
 
-locals {
-  zipfile = "${path.module}/lambda/build/lambda-create-password-secret-production.zip"
-}
-
 resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
   role       = aws_iam_role.this.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
@@ -51,12 +65,12 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
 data "aws_iam_policy_document" "secret_write" {
   statement {
     actions = [
-      "secretsmanager:PutSecretVersion",
+      "secretsmanager:UpdateSecret",
+      "secretsmanager:PutSecretValue"
     ]
 
     resources = [
-      aws_secretsmanager_secret.privkey.arn,
-      aws_secretsmanager_secret.pubkey.arn
+      aws_secretsmanager_secret.this.arn
     ]
   }
 }
@@ -68,12 +82,12 @@ resource "aws_iam_role_policy" "secret_write" {
 }
 
 resource "aws_lambda_function" "this" {
-  filename         = local.zipfile
-  function_name    = var.name
-  handler          = "index.handler"
-  role             = aws_iam_role.this.arn
-  runtime          = "nodejs12.x"
-  source_code_hash = try(filebase64sha256(local.zipfile), null)
+  description   = "Uses ${local.lambda_repo_name} version ${local.lambda_version} to generate a random password and save it to a SecretsManager Secret"
+  filename      = local.zipfile
+  function_name = var.name
+  handler       = "index.handler"
+  role          = aws_iam_role.this.arn
+  runtime       = "nodejs12.x"
 
   tags = merge(
     var.tags,
@@ -90,7 +104,7 @@ resource "aws_lambda_function" "this" {
   }
 
   depends_on = [
-    module.lambda_package
+    null_resource.lambda_zip
   ]
 }
 
@@ -122,21 +136,20 @@ locals {
   }
 }
 
-# Using a random_string as a trigger for when the password should be re-created.
-# This allows the Terraform re-creation logic to be duplicated exactly.
+# # Using a random_string as a trigger for when the password should be re-created.
+# # This allows the Terraform re-creation logic to be duplicated exactly.
 resource "random_string" "trigger" {
-  keepers = var.keepers
-
+  keepers          = var.keepers
   length           = var.length
-  upper            = var.upper
-  min_upper        = var.min_upper
   lower            = var.lower
   min_lower        = var.min_lower
-  number           = var.number
   min_numeric      = var.min_numeric
-  special          = var.special
   min_special      = var.min_special
+  min_upper        = var.min_upper
+  number           = var.number
   override_special = var.override_special
+  special          = var.special
+  upper            = var.upper
 }
 
 module "lambda_invocation" {
@@ -152,6 +165,7 @@ module "lambda_invocation" {
   ]
 }
 
+# must use a managed resource rather than a data resource here as a data resource triggers on every run
 module "lambda_invocation_result" {
   source  = "matti/resource/shell"
   version = "~>1.0.7"
