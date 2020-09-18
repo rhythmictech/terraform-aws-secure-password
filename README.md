@@ -34,7 +34,7 @@ Creates a password with a Lambda data source and saves it in a secrets manager s
 | Name | Version |
 |------|---------|
 | terraform | ~> 0.12.28 |
-| aws | ~> 3.0 |
+| aws | >= 2.45, < 4.0 |
 | null | ~> 2.1 |
 | random | ~> 2.3 |
 
@@ -42,7 +42,7 @@ Creates a password with a Lambda data source and saves it in a secrets manager s
 
 | Name | Version |
 |------|---------|
-| aws | ~> 3.0 |
+| aws | >= 2.45, < 4.0 |
 | null | ~> 2.1 |
 | random | ~> 2.3 |
 
