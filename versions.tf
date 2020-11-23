@@ -7,6 +7,11 @@ terraform {
       version = ">= 2.45, < 4.0"
     }
 
+    external = {
+      source  = "hashicorp/external"
+      version = "~> 1.2"
+    }
+
     null = {
       source  = "hashicorp/null"
       version = "~> 2.1"

@@ -16,7 +16,7 @@ module "lambda_version" {
 locals {
   lambda_version     = module.lambda_version.target_version
   lambda_version_tag = module.lambda_version.version_info.release_tag
-  zipfile            = "lambda-${local.labda_version}.zip"
+  zipfile            = "lambda-${local.lambda_version}.zip"
 }
 
 resource "null_resource" "lambda_zip" {
@@ -35,7 +35,7 @@ data "external" "sha" {
   ]
 
   query = {
-    repo_full_name = local.repo_full_name
+    repo_full_name = local.lambda_repo_full_name
     tag            = local.lambda_version_tag
   }
 }
