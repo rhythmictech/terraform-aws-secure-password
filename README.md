@@ -43,6 +43,7 @@ Creates a password with a Lambda data source and saves it in a secrets manager s
 | Name | Version |
 |------|---------|
 | aws | >= 2.45, < 4.0 |
+| external | n/a |
 | null | ~> 2.1 |
 | random | ~> 2.3 |
 
@@ -53,14 +54,14 @@ Creates a password with a Lambda data source and saves it in a secrets manager s
 | length | Length of the password to be created | `number` | n/a | yes |
 | name | Moniker to apply to all resources in the module | `string` | n/a | yes |
 | keepers | Arbitrary map of values that when changed will force a new password | `map(string)` | `{}` | no |
-| lambda\_version\_constraint | NPM-style version constraint for the version of the lambda code you want to use | `string` | `"^1.0.0-rc1"` | no |
+| lambda\_version\_constraint | NPM-style version constraint for the version of the lambda code you want to use | `string` | `"^1.0.3"` | no |
 | lower | Whether to use lower case characters | `bool` | `true` | no |
 | min\_lower | Minimum number of lowercase letters | `number` | `0` | no |
 | min\_numeric | Minimum number of numeric characters to use. Must be at least 1 | `number` | `1` | no |
 | min\_special | Minimum number of special characters to use. Must be at least 1 | `number` | `1` | no |
 | min\_upper | Minimum number of uppercase characters to use. Must be at least 1 | `number` | `1` | no |
 | number | Whether to use numbers | `bool` | `true` | no |
-| override\_special | Supply your own list of special characters to use for string generation | `string` | `"!@#$%\u0026*()-_=+[]{}\u003c\u003e:?"` | no |
+| override\_special | Supply your own list of special characters to use for string generation | `string` | `"!@#$%&*()-_=+[]{}<>:?"` | no |
 | secret\_description | Set a description for the secret | `string` | `"A password created by Terraform"` | no |
 | special | Whether to use special characters | `bool` | `true` | no |
 | tags | User-Defined tags | `map(string)` | `{}` | no |
