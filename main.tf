@@ -16,6 +16,7 @@ module "lambda_version" {
 locals {
   lambda_version     = module.lambda_version.target_version
   lambda_version_tag = module.lambda_version.version_info.release_tag
+  zipfile            = "lambda-${local.labda_version}.zip"
 }
 
 resource "null_resource" "lambda_zip" {
@@ -24,12 +25,19 @@ resource "null_resource" "lambda_zip" {
   }
 
   provisioner "local-exec" {
-    command = "curl -Lso ${path.module}/lambda.zip https://github.com/${local.lambda_repo_full_name}/releases/download/${local.lambda_version_tag}/lambda.zip"
+    command = "curl -Lso ${local.zipfile} https://github.com/${local.lambda_repo_full_name}/releases/download/${local.lambda_version_tag}/lambda.zip"
   }
 }
 
-locals {
-  zipfile = "${path.module}/lambda.zip"
+data "external" "sha" {
+  program = [
+    "${path.module}/getsha.sh"
+  ]
+
+  query = {
+    repo_full_name = local.repo_full_name
+    tag            = local.lambda_version_tag
+  }
 }
 
 data "aws_iam_policy_document" "assume" {
@@ -82,12 +90,13 @@ resource "aws_iam_role_policy" "secret_write" {
 }
 
 resource "aws_lambda_function" "this" {
-  description   = "Uses ${local.lambda_repo_name} version ${local.lambda_version} to generate a random password and save it to a SecretsManager Secret"
-  filename      = local.zipfile
-  function_name = var.name
-  handler       = "index.handler"
-  role          = aws_iam_role.this.arn
-  runtime       = "nodejs12.x"
+  description      = "Uses ${local.lambda_repo_name} version ${local.lambda_version} to generate a random password and save it to a SecretsManager Secret"
+  filename         = local.zipfile
+  function_name    = var.name
+  handler          = "index.handler"
+  role             = aws_iam_role.this.arn
+  runtime          = "nodejs12.x"
+  source_code_hash = data.external.sha.result.sha
 
   tags = merge(
     var.tags,
@@ -98,7 +107,6 @@ resource "aws_lambda_function" "this" {
 
   lifecycle {
     ignore_changes = [
-      filename,
       last_modified
     ]
   }

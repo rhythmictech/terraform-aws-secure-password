@@ -17,7 +17,7 @@ variable "tags" {
 }
 
 variable "lambda_version_constraint" {
-  default     = "^1.0.0-rc1"
+  default     = "^1.0.3"
   description = "NPM-style version constraint for the version of the lambda code you want to use"
   type        = string
 }
