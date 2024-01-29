@@ -6,7 +6,7 @@ locals {
 
 module "lambda_version" {
   source  = "rhythmictech/find-release-by-semver/github"
-  version = "~> 1.0"
+  version = "~> 1.1"
 
   repo_name          = local.lambda_repo_name
   repo_owner         = local.lambda_repo_owner
